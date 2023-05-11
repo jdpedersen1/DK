@@ -1,0 +1,97 @@
+# example sxhkdrc for use with dk
+#########################################################
+
+# launcher
+alt + p
+	dmenu_run
+
+alt + shift + d
+    alacritty --class launch -t menu -e launch.sh 
+
+alt + shift + i
+    alacritty --class src -t vsrc -e vsp2
+
+alt + shift + v
+    alacritty --class vml -t vml -e vmach.sh
+
+# BROWSERS
+alt + shift {b,a}
+    {brave-browser-stable,firefox}
+
+# terminal
+alt + shift + Return
+	alacritty
+
+alt + Return
+    scratch scratchpad
+
+# screenshot and selection capture
+{Print}
+	scrot -s
+
+# dedicated volume keys
+{XF86AudioRaiseVolume,XF86AudioLowerVolume}
+	pamixer {-i,-d} 2
+
+{XF86AudioMute}
+   pamixer --toggle-mute
+
+# dedicated backlight keys
+{XF86MonBrightnessUp,XF86MonBrightnessDown}
+	xbacklight {+10,-10}
+
+# reload sxhkd
+alt + shift + x
+	pkill -USR1 -x sxhkd
+
+# quit dk
+alt + shift + c
+	dkcmd exit
+
+# reload dkrc
+alt + shift + r
+	$HOME/.config/dk/dkrc
+
+# restart dk
+alt + ctrl + shift + r
+	dkcmd restart
+
+# focus next or previous window
+alt + {Left,Right}
+	dkcmd win focus {next,prev}
+
+# close window, swap tiled window in/out of master, cycle tiled windows in place
+alt + shift + {q,space,Tab}
+	dkcmd win {kill,swap,cycle}
+
+# toggle floating or sticky
+alt + {space,s}
+	dkcmd win {float,stick}
+
+# resize window, signed (+/-) for relative changes
+alt + ctrl + {Left,Down,Up,Right}
+	dkcmd win resize {w=-20,h=+20,h=-20,w=+20}
+
+# move the active window up/down the stack
+alt + {Up,Down}
+	dkcmd win mvstack {up,down}
+
+# view, send, or follow to a workspace (by number)
+alt + {_,shift + ,ctrl + }{1-9,0}
+	dkcmd ws {view,send,follow} {1-9,10}
+
+# change active workspace layout
+alt + {t,r,m,g,s,w,f,u}
+	dkcmd set layout {tile,rtile,mono,grid,spiral,dwindle,none,tstack}
+
+# change number of windows in master or first stack
+alt + {_,control + }{i,d}
+	dkcmd set {master,stack} {+1,-1}
+
+# change gap width
+alt + {equal,minus}
+	dkcmd set gap {+5,-5}
+
+# change border widths
+alt + ctrl + {_,shift + }{equal,minus}
+	dkcmd set border {width,outer_width} {+1,-1}

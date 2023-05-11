@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+#
+## Created By: Jake@Linux
+# Created On: Sat 15 Apr 2023 01:57:02 PM CDT
+# # Project: DK config
+
+
+###    AUTOSTART   ###
+xwallpaper --zoom "$HOME"/Media/Pictures/wallpapers/void/FadedVoid.png &
+xfce4-power-manager &
+picom --experimental-backends &
+nm-applet &
+"$HOME"/.config/dk/panel2.sh 
+dbus-launch &
+#conky &
+mpd --no-daemon "$HOME"/.config/mpd/mpd.conf &
+
+###   SXHKD   ###
+if hash sxhkd >/dev/null 2>&1; then
+    pkill sxhkd
+    sxhkd -c "$HOME/.config/dk/sxhkdrc" &
+fi
+
+###   BORDERS   ###
+px=$(xrandr | grep ' connected' | tail -n1 | grep -o '[0-9]\+x[0-9]\+' | cut -d'x' -f2)
+mm=$(xrandr | grep ' connected' | tail -n1 | grep -o '[0-9]\+mm' | tail -n1 | sed 's/mm//')
+dpi=$(( (px / mm) * 25 ))
+
+if [ $dpi -ge 140 ]; then
+    border_width=5
+    border_outer_width=3
+elif [ $dpi -ge 120 ]; then
+    border_width=4
+    border_outer_width=2
+else
+    border_width=2
+    border_outer_width=1
+fi
+
+
+###   WORKSPACE   ###
+dkcmd set numws=10
+dkcmd set ws=_ apply layout=tile master=1 stack=2 gap=4 msplit=0.55 ssplit=0.50
+dkcmd set ws=10 layout=grid pad left=200 right=200 top=100 bottom=100 gap=50
+
+
+###   WINDOW BEHAVIOR/SETTINGS   ###
+dkcmd set focus_open=true focus_urgent=true focus_mouse=true
+dkcmd set tile_tohead=0 tile_hints=false
+dkcmd set win_minwh=50 win_minxy=10
+dkcmd set smart_gap=true smart_border=true
+dkcmd set mouse mod=alt move=button1 resize=button3
+dkcmd set border width=$border_width outer_width=$border_outer_width \
+colour \
+focus='#6699cc' \
+unfocus='#444444' \
+urgent='#ee5555' \
+outer_focus='#222222' \
+outer_unfocus='#222222' \
+outer_urgent='#222222'
+
+
+
+dkcmd rule class="^(pavucontrol|lxappearance|nemo)$" float=true
+dkcmd rule class="^scpad$" title="scratchpad" float=true w=1280 h=520 x=325 y=32
+dkcmd rule class="^launch$" title="menu" float=true w=640 h=115 x=300 y=975
+dkcmd rule class="^src$" title="vsrc" float=true w=640 h=115 x=975 y=975
+dkcmd rule class="^vml$" title="vml" float=true w=250 h=125 x=850 y=1300
+dkcmd rule apply '*'
+
