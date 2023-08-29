@@ -6,7 +6,7 @@ alt + p
 	dmenu_run
 
 alt + shift + d
-    alacritty --class launch -t menu -e launch.sh 
+    alacritty --class launch -t menu -e /home/jake/.local/scripts/launch.sh 
 
 alt + shift + i
     alacritty --class src -t vsrc -e vsp2
@@ -15,15 +15,15 @@ alt + shift + v
     alacritty --class vml -t vml -e vmach.sh
 
 # BROWSERS
-alt + shift {b,a}
-    {brave-browser-stable,firefox}
+alt + shift {b,a,l}
+    {brave,firefox,librewolf}
 
 # terminal
 alt + shift + Return
 	alacritty
 
 alt + Return
-    scratch scratchpad
+    /home/jake/.local/scripts/scratch scratchpad
 
 # screenshot and selection capture
 {Print}
